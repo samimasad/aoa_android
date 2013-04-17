@@ -296,7 +296,12 @@ public class AccessoryControl {
 					numRead = inputStream.read(buffer);
 					counter = counter + numRead ;
 					pos = 0;
+					int asInt ;
+
 					
+					//asInt = (buffer[0] & 0xFF) 
+				    //        | ((buffer[1] & 0xFF) << 8) ;
+					//result = Float.intBitsToFloat(asInt);
 				
 					while(pos < numRead) {
 						int len = numRead - pos;
@@ -305,20 +310,35 @@ public class AccessoryControl {
 						case AccessoryControl.MESSAGE_IN_SENDTEMP:
 
 							if (len >= 3) {
-								Message m = Message.obtain(handler, AccessoryControl.MESSAGE_IN_SENDTEMP);								
+								Message m = Message.obtain(handler, AccessoryControl.MESSAGE_IN_SENDTEMP);
+								asInt = (buffer[pos + 1] & 0xFF) 
+							            | ((buffer[pos + 2] & 0xFF) << 8) 
+							            | ((buffer[pos + 3] & 0xFF) << 16) 
+							            | ((buffer[pos + 4]) << 24);
+								//m.arg1 = Float.intBitsToFloat(asInt);
+								m.obj = Float.intBitsToFloat(asInt);
+	
 								m.arg1 = toInt(buffer[pos + 1], buffer[pos + 2]);
 								handler.sendMessage(m);
 							}
-							pos += 3;
+							//pos += 3;
+							pos += 5;
 							break;
 						case AccessoryControl.MESSAGE_IN_SENDHUM:
 
 							if (len >= 2) {
 								Message m = Message.obtain(handler, AccessoryControl.MESSAGE_IN_SENDHUM);
 								m.arg1 = toInt(buffer[pos + 1], buffer[pos + 2]);
+								asInt = (buffer[pos + 1] & 0xFF) 
+							            | ((buffer[pos + 2] & 0xFF) << 8) 
+							            | ((buffer[pos + 3] & 0xFF) << 16) 
+							            | ((buffer[pos + 4]) << 24);
+								//m.arg1 = Float.intBitsToFloat(asInt);
+								m.obj = Float.intBitsToFloat(asInt);
 								handler.sendMessage(m);
 							}
-							pos += 3;
+							//pos += 3;
+							pos += 5;
 							break;				
 
 						case AccessoryControl.MESSAGE_IN_SENDLIGHT:
@@ -326,9 +346,16 @@ public class AccessoryControl {
 							if (len >= 2) {
 								Message m = Message.obtain(handler, AccessoryControl.MESSAGE_IN_SENDLIGHT);
 								m.arg1 = toInt(buffer[pos + 1], buffer[pos + 2]);
+								asInt = (buffer[pos + 1] & 0xFF) 
+							            | ((buffer[pos + 2] & 0xFF) << 8) 
+							            | ((buffer[pos + 3] & 0xFF) << 16) 
+							            | ((buffer[pos + 4]) << 24);
+								//m.arg1 = Float.intBitsToFloat(asInt);
+								m.obj = Float.intBitsToFloat(asInt);
 								handler.sendMessage(m);
 							}
-							pos += 3;
+							//pos += 3;
+							pos += 5;
 							break;				
 							
 						case AccessoryControl.MESSAGE_DISCONNECT:

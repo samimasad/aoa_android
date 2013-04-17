@@ -150,14 +150,17 @@ public class SensorDisplay extends Activity {
 
 			switch(msg.what) {
 			case AccessoryControl.MESSAGE_IN_SENDTEMP: 
-				txtboxTemp.setText("" + msg.arg1);
+				//txtboxTemp.setText("" + msg.arg1);
+				txtboxTemp.setText("" + (Float)msg.obj);
 
 				break;
 			case AccessoryControl.MESSAGE_IN_SENDHUM: 
-				txtboxHum.setText("" + msg.arg1);
+				//txtboxHum.setText("" + msg.arg1);
+				txtboxHum.setText("" + (Float)msg.obj);
 				break;
 			case AccessoryControl.MESSAGE_IN_SENDLIGHT: 
-				txtboxLum.setText("" + msg.arg1);
+				//txtboxLum.setText("" + msg.arg1);
+				txtboxLum.setText("" + (Float)msg.obj);
 				break;								
 		
 			}
